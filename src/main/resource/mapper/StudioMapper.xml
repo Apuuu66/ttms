@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttms.dao.StudioDao">
+    <select id="getList" resultType="com.ttms.pojo.Studio">
+        SELECT * FROM studio
+    </select>
+    <!--分页-->
+    <select id="getStudioTotalCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM studio
+    </select>
+    <select id="getStudiosByPage" resultType="com.ttms.pojo.Studio">
+        SELECT * FROM studio LIMIT #{L},#{pageSize}
+    </select>
+    <!--条件查询-->
+    <select id="getByConditionCount" parameterType="com.ttms.pojo.Studio" resultType="java.lang.Integer">
+        SELECT count(*) FROM studio
+        <include refid="studio_where"/>
+    </select>
+    <select id="getListByCondition" parameterType="com.ttms.pojo.Studio" resultType="com.ttms.pojo.Studio">
+        SELECT * FROM studio
+        <include refid="studio_where"/>
+    </select>
+    <sql id="studio_where">
+        <where>
+            <if test="id !=null and id != ''">
+                and id LIKE '%${id}%'
+            </if>
+            <if test="studioName != null and studioName !=''">
+                and studio_name LIKE '%${studioName}%'
+            </if>
+        </where>
+    </sql>
+    <!--添加-->
+    <insert id="addStudio" parameterType="com.ttms.pojo.Studio">
+        INSERT INTO `ttms`.`studio`(`studio_name`, `studio_row_count`, `studio_col_count`, `studio_introduction`, `studio_flag`)
+        VALUES (#{studioName}, #{studioRowCount}, #{studioColCount}, #{studioIntroduction}, #{studioFlag})
+    </insert>
+    <!--更新-->
+    <update id="updateStudio" parameterType="com.ttms.pojo.Studio">
+        UPDATE `ttms`.`studio`
+        SET `studio_name` = #{studioName}, `studio_row_count` = #{studioRowCount}, `studio_col_count` = #{studioColCount}, `studio_introduction` = #{studioIntroduction}, `studio_flag` = #{studioFlag}
+        WHERE `id` =#{id}
+    </update>
+    <!--删除-->
+    <delete id="deleteStudio" parameterType="java.lang.String">
+        DELETE FROM  studio WHERE id=#{id}
+    </delete>
+</mapper>
