@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+    <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+    <script type="text/javascript" src="easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="js/mycrud.js"></script>
+</head>
+<body style="margin: 2px">
+
+<div>
+    <table class="easyui-datagrid" id="myGird"></table>
+</div>
+
+<div id="myDlg" class="easyui-dialog" class="easyui-dialog" style="width:270px;height:210px"
+     data-options="title:'部门管理',buttons:'#btn',closed: true,modal:true">
+    <form id="editForm">
+        <table>
+            <tr id="trh">
+                <td>ID</td>
+                <td><input type="text" id="id" name="id" readonly></td>
+            </tr>
+            <tr>
+                <td>编号</td>
+                <td><input type="text" name="empNo" id="empNo"  readonly></td>
+            </tr>
+            <tr>
+                <td>用户名</td>
+                <td><input type="text" name="empName"></td>
+            </tr>
+            <tr>
+                <td>手机</td>
+                <td><input type="text" name="empTelNum"></td>
+            </tr>
+            <tr>
+                <td>地址</td>
+                <td><input type="text" name="empAddr"></td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td><input type="text" name="empEmail"></td>
+            </tr>
+            </tr>
+
+        </table>
+    </form>
+    <div id="btn">
+        <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-save'"
+           onclick='Submit()'>确定</a>
+        <a href='javascript:void(0);' class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"
+           onclick='$("#myDlg").dialog("close", false);'>取消</a>
+    </div>
+</div>
+
+<div id='toolbar' class="easyui-panel" style="padding-left:4px;border-bottom:0px;">
+
+    <div style="height:2px;"></div>
+
+    <form id="searchForm">
+        编号<input name="empNo" size="8">
+        用户名<input name="empName">
+        手机<input name="empTelNum">
+        <a class='easyui-linkbutton' iconcls='icon-search' href='javascript:void(0)' id="btnSearch" >查询</a>
+
+
+
+    <a class='easyui-linkbutton' iconcls='icon-add' href='javascript:void(0)' onclick="Insert()">添加</a>
+    <a class='easyui-linkbutton' iconcls='icon-edit' href='javascript:void(0)' onclick="Edit()">编辑</a>
+    <a class='easyui-linkbutton' iconcls='icon-cancel' href='javascript:void(0)' onclick="Delete()">删除</a>
+    </form>
+
+</div>
+<div style="height:4px;"></div>
+</body>
+
+<script type="text/javascript">
+    var urlPrefix = "emp";
+    var pageName = "员工";
+    var w = 280;
+    var h = 210;
+    var columns = [[
+        {field: "", checkbox: true},  //复选框
+        {field: 'id', title: 'ID', width: 80},
+        {field: 'empNo', title: '编号', width: 100},
+        {field: 'empName', title: '用户名', width: 100},
+        {field: 'empTelNum', title: '手机', width: 150},
+        {field: 'empAddr', title: '地址', width: 150},
+        {field: 'empEmail', title: '邮箱', width: 170}
+    ]];
+
+
+</script>
+
+</html>

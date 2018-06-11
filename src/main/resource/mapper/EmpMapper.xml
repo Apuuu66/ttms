@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttms.dao.EmpDao">
+    <select id="getList" resultType="com.ttms.pojo.Employee">
+        SELECT * FROM employee
+    </select>
+    <select id="getByConditionCount" parameterType="com.ttms.pojo.Employee" resultType="java.lang.Integer">
+        SELECT count(*) FROM employee
+        <include refid="employee_where"/>
+    </select>
+    <select id="getListByEmployee" parameterType="com.ttms.pojo.Employee" resultType="com.ttms.pojo.Employee">
+        SELECT * FROM employee
+        <include refid="employee_where"/>
+    </select>
+
+    <sql id="employee_where">
+        <where>
+            <if test="empNo!=null and empNo!= ''">
+                and emp_no LIKE '%${empNo}%'
+            </if>
+            <if test="empName != null and empName !=''">
+                and emp_name LIKE '%${empName}%'
+            </if>
+            <if test="empTelNum != null and empTelNum !=''">
+                and emp_tel_num LIKE '%${empTelNum}%'
+            </if>
+        </where>
+    </sql>
+
+    <select id="getEmployeeTotalCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM employee
+    </select>
+
+    <select id="getEmployeesByPage" resultType="com.ttms.pojo.Employee">
+        SELECT * FROM employee LIMIT #{L},#{pageSize}
+    </select>
+
+    <insert id="addEmployee" parameterType="com.ttms.pojo.Employee">
+        INSERT INTO employee(`emp_no`, `emp_name`, `emp_tel_num`, `emp_addr`, `emp_email`)
+        VALUES (#{empNo},#{empName},#{empTelNum},#{empAddr},#{empEmail})
+    </insert>
+
+    <update id="updateEmployee" parameterType="com.ttms.pojo.Employee">
+        UPDATE `ttms`.`employee`
+        SET `emp_name` = #{empName}, `emp_tel_num` = #{empTelNum}, `emp_addr` =#{empAddr} , `emp_email` = #{empEmail}
+        WHERE `id` = #{id}
+    </update>
+    <delete id="deleteEmployee" parameterType="java.lang.String">
+        DELETE FROM employee WHERE `id` = #{id}
+    </delete>
+
+</mapper>
+

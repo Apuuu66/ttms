@@ -19,6 +19,6 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <context:component-scan base-package="com.kevin.web"/>
+    <context:component-scan base-package="com.ttms.web,com.ttms.mobile.web"/>
 
 </beans>

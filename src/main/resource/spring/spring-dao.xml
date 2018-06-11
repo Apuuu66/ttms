@@ -45,14 +45,14 @@
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!--数据源-->
         <property name="dataSource" ref="dataSource"/>
-        <property name="typeAliasesPackage" value="com.kevin.entity"/>
-        <!--<property name="mapperLocations" value="classpath:mapper/*.xml"/>-->
+        <property name="typeAliasesPackage" value="com.ttms.pojo"/>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--如果需要扫描多个报下的mapper,每个包中间使用半角逗号分开-->
-        <property name="basePackage" value="com.kevin.dao"/>
+        <property name="basePackage" value="com.ttms.mobile.dao,com.ttms.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sessionFactory"/>
     </bean>
-    <context:component-scan base-package="com.kevin.dao"/>
+    <context:component-scan base-package="com.ttms.dao"/>
 </beans>
