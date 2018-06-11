@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttms.dao.UserDao">
+
+    <select id="getList" resultMap="selectRolesByUser">
+        SELECT * FROM user
+    </select>
+
+    <resultMap id="selectRolesByUser" type="com.ttms.pojo.User">
+        <id property="id" column="id"/>
+        <result property="empPass" column="emp_pass"/>
+        <result property="headPath" column="head_path"/>
+        <collection property="roles" column="id" ofType="com.ttms.pojo.Role" select="selectRolesByUserId"/>
+    </resultMap>
+
+    <select id="selectRolesByUserId" parameterType="java.lang.String" resultMap="selectRoleUser">
+        select * from user_role,role where  role.id = user_role.roleid and  userid=#{id} order by roleid
+    </select>
+
+
+
+    <select id="getByConditionCount" parameterType="com.ttms.pojo.User" resultType="java.lang.Integer">
+        SELECT count(*) FROM user
+        <include refid="user_where"/>
+    </select>
+
+    <select id="getListByUser" parameterType="com.ttms.pojo.User" resultMap="selectRoleUser">
+        SELECT * FROM user
+        <include refid="user_where"/>
+    </select>
+
+    <sql id="user_where">
+        <where>
+            <if test="id != null and id != ''">
+                and id LIKE '%${id}%'
+            </if>
+            <if test="role != null and role !=''">
+                and role LIKE '%${role}%'
+            </if>
+        </where>
+    </sql>
+
+    <select id="getUserTotalCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM user
+    </select>
+
+    <select id="getUsersByPage" resultMap="selectRoleUser">
+        SELECT * FROM user LIMIT #{L},#{pageSize}
+    </select>
+    <select id="selectRoleByUserId" resultType="com.ttms.pojo.Role">
+        select * from role where id =#{id}
+    </select>
+    <resultMap id="selectRoleUser" type="com.ttms.pojo.User">
+        <id property="id" column="id"/>
+        <result property="empPass" column="emp_pass"/>
+        <result property="headPath" column="head_path"/>
+        <association property="role" javaType="com.ttms.pojo.Role" column="role" select="selectRoleByUserId"/>
+    </resultMap>
+
+
+
+    <insert id="addUser" parameterType="java.lang.Integer">
+        INSERT INTO `ttms`.`user`(`id`) VALUES (#{id})
+    </insert>
+    <update id="updateUser" parameterType="com.ttms.pojo.User">
+        UPDATE user SET `name` = #{name} WHERE `uuid` = #{uuid}
+    </update>
+    <delete id="deleteUser" parameterType="java.lang.String">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+
+    <select id="getUnregistered" resultType="com.ttms.pojo.Employee">
+    SELECT id,emp_name FROM employee WHERE NOT EXISTS (select `user`.id FROM `user` WHERE `user`.id=employee.id)
+    </select>
+</mapper>
+

@@ -1,17 +1,27 @@
 package com.ttms.pojo;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.List;
 
 public class User {
     private Integer id;
+    @JsonIgnore
+    private String empPass;
 
-    private String username;
+    private Role role;
 
-    private Date birthday;
+    private String headPath;
 
-    private String sex;
+    private List<Role> roles;
 
-    private String address;
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
     public Integer getId() {
         return id;
@@ -21,35 +31,27 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmpPass() {
+        return empPass;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+    public void setEmpPass(String empPass) {
+        this.empPass = empPass == null ? null : empPass.trim();
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public Role getRole() {
+        return role;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    public String getSex() {
-        return sex;
+    public String getHeadPath() {
+        return headPath;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+    public void setHeadPath(String headPath) {
+        this.headPath = headPath == null ? null : headPath.trim();
     }
 }

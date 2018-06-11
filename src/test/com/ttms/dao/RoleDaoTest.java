@@ -31,7 +31,7 @@ public class RoleDaoTest {
 
     @Test
     public void getListByRole() {
-        Role role = new Role();role.setUuid(1L);
+        Role role = new Role();role.setId(1L);
         List<Role> listByRole = roleDao.getListByRole(role);
 
     }

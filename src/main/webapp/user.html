@@ -17,16 +17,21 @@
 </div>
 
 <div id="myDlg" class="easyui-dialog" class="easyui-dialog" style="width:300px;height:150px"
-     data-options="title:'部门管理',buttons:'#btn',closed: true,modal:true">
+     data-options="title:'管理',buttons:'#btn',closed: true,modal:true">
     <form id="editForm">
         <table>
             <tr id="trh">
                 <td>ID</td>
                 <td><input type="text" id="uuid" name="uuid" readonly></td>
             </tr>
+            <!--<tr>-->
+                <!--<td>名称</td>-->
+                <!--<td><input type="text" id="name" name="name"></td>-->
+            <!--</tr>-->
             <tr>
                 <td>名称</td>
-                <td><input type="text" id="name" name="name"></td>
+                <td><input type="text" name="id" class="easyui-combobox"
+                           data-options="url:'user/getUnregistered',valueField:'id',textField:'empName'"></td>
             </tr>
 
         </table>
@@ -44,31 +49,33 @@
     <div style="height:2px;"></div>
 
     <form id="searchForm">
-        名称：<input name="name">
-        <button type="button" id="btnSearch">查询</button>
+         编号：<input name="id">
+        <a class='easyui-linkbutton' iconcls='icon-search' href='javascript:void(0)' id="btnSearch">查询</a>
+        <a class='easyui-linkbutton' iconcls='icon-add' href='javascript:void(0)' onclick="Insert()">添加</a>
+        <a class='easyui-linkbutton' iconcls='icon-edit' href='javascript:void(0)' onclick="Edit()">编辑</a>
+        <a class='easyui-linkbutton' iconcls='icon-cancel' href='javascript:void(0)' onclick="Delete()">删除</a>
     </form>
-
-    <div style="height:2px;"></div>
-
-    <a class='easyui-linkbutton' iconcls='icon-add' href='javascript:void(0)' onclick="Insert()">添加</a>
-    <a class='easyui-linkbutton' iconcls='icon-edit' href='javascript:void(0)' onclick="Edit()">编辑</a>
-    <a class='easyui-linkbutton' iconcls='icon-cancel' href='javascript:void(0)' onclick="Delete()">删除</a>
 </div>
-
+<div style="height:4px;"></div>
 </body>
 
 <script type="text/javascript">
-    var urlPrefix = "role";
-    var pageName = "角色";
+    var urlPrefix = "user";
+    var pageName = "登录用户";
     var w = 240;
     var h = 140;
     var columns = [[
         {field: "", checkbox: true},  //复选框
-        {field: 'uuid', title: '编号', width: 100},
-        {field: 'name', title: '名称', width: 100}
+        {field: 'id', title: '编号', width: 100},
+        {
+            field: 'role', title: '角色', width: 100, formatter: function (val, row, index) {
+                if (val) {
+                    return val.name;
+                }
+                return "";
+            }
+        }
     ]];
-
-
 </script>
 
 </html>

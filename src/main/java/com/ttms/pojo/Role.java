@@ -12,19 +12,19 @@ import java.util.List;
  * Date: 2018/6/7
  */
 public class Role {
-    private Long uuid;//编号
+    private Long id;//编号
     private String name;//名称
 
     //    @JSONField(serialize=false)
     @JsonIgnore
     private List<Menu> menus;//角色下的菜单权限
 
-    public Long getUuid() {
-        return uuid;
+    public Long getId() {
+        return id;
     }
 
-    public void setUuid(Long uuid) {
-        this.uuid = uuid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -50,7 +50,7 @@ public class Role {
 
     @Override
     public boolean equals(Object obj) {
-        if (this.getUuid() == ((Role) obj).getUuid())
+        if (this.getId() == ((Role) obj).getId())
             return true;
         return false;
     }

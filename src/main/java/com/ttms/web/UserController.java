@@ -1,9 +1,10 @@
 package com.ttms.web;
 
+import com.ttms.pojo.Employee;
 import com.ttms.pojo.PageBean;
-import com.ttms.pojo.Role;
 import com.ttms.pojo.State;
-import com.ttms.service.RoleService;
+import com.ttms.pojo.User;
+import com.ttms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,37 +21,37 @@ import java.util.Map;
  * Date: 2018/6/11
  */
 @Controller
-@RequestMapping("/role")
-public class RoleController {
+@RequestMapping("/user")
+public class UserController {
     @Autowired
-    private RoleService roleService;
+    private UserService userService;
 
     @RequestMapping(value = "/list")
     @ResponseBody
     public List list() {
-        List<Role> list = roleService.getList();
+        List<User> list = userService.getList();
         return list;
     }
 
     @RequestMapping(value = "/tt")
     @ResponseBody
-    public Map getByCondition(Role role) {
-        System.out.println(role);
-        List<Role> list = roleService.getListByRole(role);
+    public Map getByCondition(User user) {
+        System.out.println(user);
+        List<User> list = userService.getListByUser(user);
         Map map = new HashMap();
         map.put("rows", list);
-        int total = roleService.getByConditionCount(role);
+        int total = userService.getByConditionCount(user);
         map.put("total", total);
         return map;
     }
 
     @RequestMapping("/page")
     @ResponseBody
-    public Map rolePage(HttpServletRequest request) {
+    public Map userPage(HttpServletRequest request) {
         int currentPage = Integer.parseInt(request.getParameter("page"));
         int pageSize = Integer.parseInt(request.getParameter("rows"));
         HashMap<String, Object> map = new HashMap<>();
-        PageBean<Role> pageBean = roleService.getPagebean(currentPage, pageSize);
+        PageBean<User> pageBean = userService.getPagebean(currentPage, pageSize);
         map.put("rows", pageBean.getList());
         map.put("total", pageBean.getTotalCount());
         return map;
@@ -58,9 +59,9 @@ public class RoleController {
 
     @RequestMapping("/add")
     @ResponseBody
-    public State addRole(Role role) {
+    public State addUser(User user) {
         try {
-            roleService.addRole(role);
+            userService.addUser(user);
             return new State(true, "添加成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,9 +71,9 @@ public class RoleController {
 
     @RequestMapping("/update")
     @ResponseBody
-    public State updateRole(Role role) {
+    public State updateUser(User user) {
         try {
-            roleService.updateRole(role);
+            userService.updateUser(user);
             return new State(true, "更新成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,14 +83,19 @@ public class RoleController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public State deleteRole(Role role) {
+    public State deleteUser(User user) {
         try {
-            roleService.deleteRole(role.getId().toString());
+            userService.deleteUser(String.valueOf(user.getId()));
             return new State(true, "删除成功");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return new State(false, "删除失败");
     }
-}
 
+    @RequestMapping("/getUnregistered")
+    @ResponseBody
+    public List<Employee> getUnregistered() {
+        return userService.getUnregistered();
+    }
+}
