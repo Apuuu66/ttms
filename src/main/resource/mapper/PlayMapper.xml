@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttms.dao.PlayDao">
+    <select id="getList" resultMap="play_map">
+        SELECT * FROM play
+    </select>
+
+    <!--map映射-->
+    <resultMap id="play_map" type="com.ttms.pojo.Play">
+        <id property="id" column="id"/>
+        <result property="playName" column="play_name"/>
+        <result property="playIntroduction" column="play_introduction"/>
+        <result property="playImage" column="play_image"/>
+        <result property="playLength" column="play_length"/>
+        <result property="playTicketPrice" column="play_ticket_price"/>
+        <result property="playStatus" column="play_status"/>
+        <association property="type" javaType="com.ttms.pojo.DataDict" column="play_type_id" select="selectPlayTypeLang"/>
+        <association property="lang" javaType="com.ttms.pojo.DataDict" column="play_lang_id" select="selectPlayTypeLang"/>
+    </resultMap>
+    <select id="selectPlayTypeLang" resultType="com.ttms.pojo.DataDict">
+        SELECT  * FROM data_dict WHERE data_dict.id =#{id}
+    </select>
+
+    <!--分页-->
+    <select id="getPlayTotalCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM play
+    </select>
+    <select id="getPlaysByPage" resultMap="play_map">
+        SELECT * FROM play LIMIT #{L},#{pageSize}
+    </select>
+    <!--条件查询-->
+    <select id="getByConditionCount" parameterType="com.ttms.pojo.Play" resultType="java.lang.Integer">
+        SELECT count(*) FROM play
+        <include refid="play_where"/>
+    </select>
+    <select id="getListByCondition" parameterType="com.ttms.pojo.Play" resultMap="play_map">
+        SELECT * FROM play
+        <include refid="play_where"/>
+    </select>
+    <sql id="play_where">
+        <where>
+            <if test="id !=null and id != ''">
+                and id LIKE '%${id}%'
+            </if>
+            <if test="playName != null and playName !=''">
+                and play_name LIKE '%${playName}%'
+            </if>
+        </where>
+    </sql>
+    <!--添加-->
+    <insert id="addPlay" parameterType="com.ttms.pojo.Play">
+        INSERT INTO `ttms`.`play`(`play_name`, `play_row_count`, `play_col_count`, `play_introduction`, `play_flag`)
+        VALUES (#{playName}, #{playRowCount}, #{playColCount}, #{playIntroduction}, #{playFlag})
+    </insert>
+    <!--更新-->
+    <update id="updatePlay" parameterType="com.ttms.pojo.Play">
+        UPDATE `ttms`.`play`
+        SET `play_name` = #{playName}, `play_row_count` = #{playRowCount}, `play_col_count` = #{playColCount}, `play_introduction` = #{playIntroduction}, `play_flag` = #{playFlag}
+        WHERE `id` =#{id}
+    </update>
+    <!--删除-->
+    <delete id="deletePlay" parameterType="java.lang.String">
+        DELETE FROM  play WHERE id=#{id}
+    </delete>
+</mapper>

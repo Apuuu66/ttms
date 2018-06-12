@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery/jquery-1.7.2.min.js"></script>
+    <script>
+        $(function () {
+            $(".test").click(function () {
+                var val=$(this).attr("id");
+                alert(val);
+            })
+
+            $("#student").click(function () {
+                var val=$(this).attr("name");
+                alert(val);
+            })
+            $("input").click(function () {
+                var val=$(this).val();
+                alert(val)
+            })
+        })
+
+    </script>
+</head>
+<body>
+<a id="user" class="test" href="#">Us</a>
+<a id="admin" class="test" href="#">a</a>
+<a id="student" name="Tom" href="#">S</a>
+<input id="btn" type="button" name="ok" value="Hel" />
+</body>
+</html>

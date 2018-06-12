@@ -17,7 +17,7 @@
 </div>
 
 <div id="myDlg" class="easyui-dialog" class="easyui-dialog" style="width:270px;height:210px"
-     data-options="title:'部门管理',buttons:'#btn',closed: true,modal:true">
+     data-options="title:'管理',buttons:'#btn',closed: true,modal:true">
     <form id="editForm">
         <table>
             <tr id="trh">
@@ -25,27 +25,21 @@
                 <td><input type="text" id="id" name="id" readonly></td>
             </tr>
             <tr>
-                <td>编号</td>
-                <td><input type="text" name="empNo" id="empNo" readonly></td>
+                <td>所属厅</td>
+                <td><input type="text" name="studioId" readonly></td>
             </tr>
             <tr>
-                <td>用户名</td>
-                <td><input type="text" name="empName"></td>
+                <td>行</td>
+                <td><input type="text" name="seatRow" readonly></td>
             </tr>
             <tr>
-                <td>手机</td>
-                <td><input type="text" name="empTelNum"></td>
+                <td>列</td>
+                <td><input type="text" name="seatColumn" readonly></td>
             </tr>
             <tr>
-                <td>地址</td>
-                <td><input type="text" name="empAddr"></td>
+                <td>状态</td>
+                <td><input type="text" name="seatStatus"></td>
             </tr>
-            <tr>
-                <td>邮箱</td>
-                <td><input type="text" name="empEmail"></td>
-            </tr>
-            </tr>
-
         </table>
     </form>
     <div id="btn">
@@ -56,39 +50,87 @@
     </div>
 </div>
 
+
+<div id="addDlg" class="easyui-dialog" class="easyui-dialog" style="width:270px;height:210px"
+     data-options="title:'管理',buttons:'#btnadd',closed: true,modal:true">
+    <form id="addform">
+        <input type="text" id="studioId" class="easyui-combobox"
+               data-options="url:'studio/list',valueField:'id',textField:'studioName'">
+    </form>
+
+    <div id="btnadd">
+        <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-save'"
+           onclick='addSeat()'>确定</a>
+        <a href='javascript:void(0);' class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"
+           onclick='$("#addDlg").dialog("close", false);'>取消</a>
+    </div>
+</div>
+
+
 <div id='toolbar' class="easyui-panel" style="padding-left:4px;border-bottom:0px;">
 
     <div style="height:2px;"></div>
 
     <form id="searchForm">
-        编号<input name="empNo" size="8">
-        用户名<input name="empName">
-        手机<input name="empTelNum">
+        <input type="text" name="id" class="easyui-combobox"
+               data-options="url:'studio/list',valueField:'id',textField:'studioName'">
         <a class='easyui-linkbutton' iconcls='icon-search' href='javascript:void(0)' id="btnSearch">查询</a>
-        <a class='easyui-linkbutton' iconcls='icon-add' href='javascript:void(0)' onclick="Insert()">添加</a>
+        <a class='easyui-linkbutton' iconcls='icon-add' href='javascript:void(0)' onclick="Ins()">添加</a>
         <a class='easyui-linkbutton' iconcls='icon-edit' href='javascript:void(0)' onclick="Edit()">编辑</a>
-        <a class='easyui-linkbutton' iconcls='icon-cancel' href='javascript:void(0)' onclick="Delete()">删除</a>
     </form>
 </div>
 <div style="height:4px;"></div>
 </body>
 
 <script type="text/javascript">
-    var urlPrefix = "emp";
-    var pageName = "员工";
+    var urlPrefix = "seat";
+    var pageName = "座位";
     var w = 280;
     var h = 210;
     var columns = [[
         {field: "", checkbox: true},  //复选框
         {field: 'id', title: 'ID', width: 80},
-        {field: 'empNo', title: '编号', width: 100},
-        {field: 'empName', title: '用户名', width: 100},
-        {field: 'empTelNum', title: '手机', width: 150},
-        {field: 'empAddr', title: '地址', width: 150},
-        {field: 'empEmail', title: '邮箱', width: 170}
+        {field: 'studioId', title: '所属厅', width: 100},
+        {field: 'seatRow', title: '行', width: 100},
+        {field: 'seatColumn', title: '列', width: 150},
+        {
+            field: 'seatStatus', title: '状态', width: 150,
+            formatter: function (value, row, index) {
+                if (1 == value * 1) {
+                    return '可用';
+                }
+                else if (0 == value) {
+                    return '已卖';
+                }
+                else
+                    return '损坏';
+            }
+        }
     ]];
 
+    function Ins() {
+        $("#addDlg").dialog({
+            title: '添加座位',
+            width: 240,
+            height: 126
+        });
+        $("#addForm").form('clear');
+        $('#addDlg').dialog('open');
+    }
 
+    function addSeat() {git
+        $.ajax({
+            type: "post",
+            url: 'seat/add?id=' + $("#studioId").val(),
+            success: function (rtn) {
+                $.messager.alert("提示", rtn.message, "info", function () {
+                    // 关闭窗口 刷新表单
+                    $("#addDlg").dialog("close");
+                    $("#myGird").datagrid("reload");
+                });
+            }
+        });
+    }
 </script>
 
 </html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttms.dao.SeatDao">
+    <select id="getList" resultType="com.ttms.pojo.Seat">
+        SELECT * FROM seat
+    </select>
+    <!--分页-->
+    <select id="getSeatTotalCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM seat
+    </select>
+    <select id="getSeatsByPage" resultType="com.ttms.pojo.Seat">
+        SELECT * FROM seat LIMIT #{L},#{pageSize}
+    </select>
+    <!--条件查询-->
+    <select id="getByConditionCount" parameterType="com.ttms.pojo.Seat" resultType="java.lang.Integer">
+        SELECT count(*) FROM seat
+        <include refid="seat_where"/>
+    </select>
+    <select id="getListByCondition" parameterType="com.ttms.pojo.Seat" resultType="com.ttms.pojo.Seat">
+        SELECT * FROM seat
+        <include refid="seat_where"/>
+    </select>
+    <sql id="seat_where">
+        <where>
+            <if test="id !=null and id != ''">
+                and id LIKE '%${id}%'
+            </if>
+            <if test="seatName != null and seatName !=''">
+                and seat_name LIKE '%${seatName}%'
+            </if>
+        </where>
+    </sql>
+    <!--批量添加座位-->
+    <insert id="addSeat">
+       INSERT INTO `ttms`.`seat`(`studio_id`, `seat_row`, `seat_column`) VALUES (#{id},#{row} ,#{col});
+    </insert>
+    <!--更新-->
+    <update id="updateSeat" parameterType="com.ttms.pojo.Seat">
+       UPDATE `ttms`.`seat` SET  `seat_status` = #{seatStatus} WHERE `id` = #{id}
+    </update>
+    <!--删除-->
+    <delete id="deleteSeat" parameterType="java.lang.String">
+        DELETE FROM  seat WHERE id=#{id}
+    </delete>
+
+    <delete id="deleteStudioSeats" >
+        DELETE FROM seat WHERE seat.studio_id=#{id};
+    </delete>
+    <!--查询演出厅所有座位-->
+    <select id="getSeatsOfStudio" parameterType="java.lang.String" resultType="com.ttms.pojo.Seat">
+        SELECT * FROM seat WHERE seat.studio_id=#{id}
+    </select>
+    <select id="getSeatsOfStudioCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM seat WHERE seat.studio_id=#{id}
+    </select>
+    <select id="getStudioById" parameterType="java.lang.String" resultType="com.ttms.pojo.Studio">
+        SELECT  * FROM studio WHERE studio.id =#{id}
+    </select>
+</mapper>

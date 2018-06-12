@@ -5,10 +5,11 @@ import java.math.BigDecimal;
 public class Play {
     private Integer id;
 
-    private Integer playTypeId;
-
-    private Integer playLangId;
-
+    //    private Integer playTypeId;
+//
+//    private Integer playLangId;
+    private DataDict type;
+    private DataDict lang;
     private String playName;
 
     private String playIntroduction;
@@ -29,20 +30,20 @@ public class Play {
         this.id = id;
     }
 
-    public Integer getPlayTypeId() {
-        return playTypeId;
+    public DataDict getType() {
+        return type;
     }
 
-    public void setPlayTypeId(Integer playTypeId) {
-        this.playTypeId = playTypeId;
+    public void setType(DataDict type) {
+        this.type = type;
     }
 
-    public Integer getPlayLangId() {
-        return playLangId;
+    public DataDict getLang() {
+        return lang;
     }
 
-    public void setPlayLangId(Integer playLangId) {
-        this.playLangId = playLangId;
+    public void setLang(DataDict lang) {
+        this.lang = lang;
     }
 
     public String getPlayName() {
