@@ -1,5 +1,6 @@
 package com.ttms.service;
 
+import com.ttms.pojo.DataDict;
 import com.ttms.pojo.PageBean;
 import com.ttms.pojo.Play;
 
@@ -24,4 +25,9 @@ public interface PlayService {
     void updatePlay(Play play) throws Exception;
 
     void deletePlay(String id) throws Exception;
+
+    List<DataDict> getLangs();
+
+    List<DataDict> getTypes();
+
 }

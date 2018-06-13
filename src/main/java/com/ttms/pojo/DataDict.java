@@ -1,5 +1,8 @@
 package com.ttms.pojo;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class DataDict {
     private Integer id;
 
@@ -49,5 +52,10 @@ public class DataDict {
 
     public void setDictValue(String dictValue) {
         this.dictValue = dictValue == null ? null : dictValue.trim();
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

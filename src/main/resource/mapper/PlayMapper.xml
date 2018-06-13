@@ -16,8 +16,10 @@
         <result property="playLength" column="play_length"/>
         <result property="playTicketPrice" column="play_ticket_price"/>
         <result property="playStatus" column="play_status"/>
-        <association property="type" javaType="com.ttms.pojo.DataDict" column="play_type_id" select="selectPlayTypeLang"/>
-        <association property="lang" javaType="com.ttms.pojo.DataDict" column="play_lang_id" select="selectPlayTypeLang"/>
+        <association property="type" javaType="com.ttms.pojo.DataDict" column="play_type_id"
+                     select="selectPlayTypeLang"/>
+        <association property="lang" javaType="com.ttms.pojo.DataDict" column="play_lang_id"
+                     select="selectPlayTypeLang"/>
     </resultMap>
     <select id="selectPlayTypeLang" resultType="com.ttms.pojo.DataDict">
         SELECT  * FROM data_dict WHERE data_dict.id =#{id}
@@ -51,8 +53,8 @@
     </sql>
     <!--添加-->
     <insert id="addPlay" parameterType="com.ttms.pojo.Play">
-        INSERT INTO `ttms`.`play`(`play_name`, `play_row_count`, `play_col_count`, `play_introduction`, `play_flag`)
-        VALUES (#{playName}, #{playRowCount}, #{playColCount}, #{playIntroduction}, #{playFlag})
+       INSERT INTO `ttms`.`play`(`play_type_id`, `play_lang_id`, `play_name`, `play_introduction`, `play_image`, `play_length`, `play_ticket_price`)
+       VALUES (#{type.id},#{lang.id},#{playName},#{playIntroduction},#{playImage},#{playLength},#{playTicketPrice})
     </insert>
     <!--更新-->
     <update id="updatePlay" parameterType="com.ttms.pojo.Play">
@@ -64,4 +66,12 @@
     <delete id="deletePlay" parameterType="java.lang.String">
         DELETE FROM  play WHERE id=#{id}
     </delete>
+
+    <!--获取影片类型和语言-->
+    <select id="getLangs" resultType="com.ttms.pojo.DataDict">
+          SELECT  * FROM data_dict WHERE dict_parent_id=3;
+    </select>
+    <select id="getTypes" resultType="com.ttms.pojo.DataDict">
+          SELECT  * FROM data_dict WHERE dict_parent_id=2;
+    </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.ttms.service;
 
 
 import com.ttms.dao.PlayDao;
+import com.ttms.pojo.DataDict;
 import com.ttms.pojo.PageBean;
 import com.ttms.pojo.Play;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +60,15 @@ public class PlayServiceImpl implements PlayService {
     public void deletePlay(String id) throws Exception {
         playDao.deletePlay(id);
     }
+
+    @Override
+    public List<DataDict> getLangs() {
+        return playDao.getLangs();
+    }
+
+    @Override
+    public List<DataDict> getTypes() {
+        return playDao.getTypes();
+    }
+
 }

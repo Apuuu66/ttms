@@ -1,15 +1,20 @@
 package com.ttms.web;
 
+import com.ttms.pojo.DataDict;
 import com.ttms.pojo.PageBean;
-import com.ttms.pojo.State;
 import com.ttms.pojo.Play;
+import com.ttms.pojo.State;
 import com.ttms.service.PlayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +41,6 @@ public class PlayController {
     @RequestMapping(value = "/tt")
     @ResponseBody
     public Map getByCondition(Play play) {
-        System.out.println(play);
         List<Play> list = playService.getListByCondition(play);
         Map map = new HashMap();
         map.put("rows", list);
@@ -47,11 +51,10 @@ public class PlayController {
 
     @RequestMapping("/page")
     @ResponseBody
-    public Map playPage(HttpServletRequest request) {
-        int currentPage = Integer.parseInt(request.getParameter("page"));
-        int pageSize = Integer.parseInt(request.getParameter("rows"));
+    public Map playPage(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int page,
+                        @RequestParam(value = "rows", defaultValue = "12") int rows) {
         HashMap<String, Object> map = new HashMap<>();
-        PageBean<Play> pageBean = playService.getPagebean(currentPage, pageSize);
+        PageBean<Play> pageBean = playService.getPagebean(page, rows);
         map.put("rows", pageBean.getList());
         map.put("total", pageBean.getTotalCount());
         return map;
@@ -59,14 +62,26 @@ public class PlayController {
 
     @RequestMapping("/add")
     @ResponseBody
-    public State addPlay(Play play) {
-        try {
-            playService.addPlay(play);
+    public State addPlay(HttpServletRequest request, Play play) throws IOException {
+        String name = play.getFile().getOriginalFilename();
+
+        if (!play.getFile().isEmpty()) {
+            String path = request.getServletContext().getRealPath("/image/movie");
+            String filename = play.getFile().getOriginalFilename();
+            String suffix = filename.substring(filename.lastIndexOf("."));
+            String newFilename = new Date().getTime() + suffix;
+            play.getFile().transferTo(new File(path + "/" + newFilename));
+            try {
+                play.setPlayImage("/image/movie/" + newFilename);
+                playService.addPlay(play);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+//            return "redirect:/play/page";
             return new State(true, "添加成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new State(false, "添加失败");
+        } else
+//            return "redirect:/play/page";
+            return new State(false, "添加失败");
     }
 
     @RequestMapping("/update")
@@ -91,5 +106,17 @@ public class PlayController {
             e.printStackTrace();
         }
         return new State(false, "删除失败");
+    }
+
+    @RequestMapping("/getLangs")
+    @ResponseBody
+    public List<DataDict> getLangs() {
+        return playService.getLangs();
+    }
+
+    @RequestMapping("/getTypes")
+    @ResponseBody
+    public List<DataDict> getTypes() {
+        return playService.getTypes();
     }
 }

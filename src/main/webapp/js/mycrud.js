@@ -13,7 +13,8 @@ $(function () {
         singleSelect: false,//是允许选择一行
         pageSize: 12,
         pageList: [12, 20, 30],
-        toolbar: "#toolbar" //工具栏
+        toolbar: "#toolbar",//工具栏
+        nowrap:false
     });
 
 

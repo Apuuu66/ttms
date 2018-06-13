@@ -1,6 +1,8 @@
 package com.ttms.pojo;
 
-import java.math.BigDecimal;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.web.multipart.MultipartFile;
 
 public class Play {
     private Integer id;
@@ -18,9 +20,19 @@ public class Play {
 
     private Integer playLength;
 
-    private BigDecimal playTicketPrice;
+    private Float playTicketPrice;
 
     private Short playStatus;
+
+    private MultipartFile file;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public Integer getId() {
         return id;
@@ -78,11 +90,11 @@ public class Play {
         this.playLength = playLength;
     }
 
-    public BigDecimal getPlayTicketPrice() {
+    public Float getPlayTicketPrice() {
         return playTicketPrice;
     }
 
-    public void setPlayTicketPrice(BigDecimal playTicketPrice) {
+    public void setPlayTicketPrice(Float playTicketPrice) {
         this.playTicketPrice = playTicketPrice;
     }
 
@@ -92,5 +104,10 @@ public class Play {
 
     public void setPlayStatus(Short playStatus) {
         this.playStatus = playStatus;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

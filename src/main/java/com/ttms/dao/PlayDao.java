@@ -1,5 +1,6 @@
 package com.ttms.dao;
 
+import com.ttms.pojo.DataDict;
 import com.ttms.pojo.Play;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,8 @@ public interface PlayDao {
     void updatePlay(Play play) throws Exception;
 
     void deletePlay(String id);
+
+    List<DataDict> getLangs();
+
+    List<DataDict> getTypes();
 }

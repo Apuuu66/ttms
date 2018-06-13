@@ -89,10 +89,10 @@
             field: 'studioFlag', title: '状态', width: 170,
             formatter: function (value, row, index) {
                 if (1 == value * 1) {
-                    return '可用'
+                    return '可用';
                 }
-                if (0 == value) {
-                    return '不可用'
+                else {
+                    return '不可用';
                 }
             }
         }
