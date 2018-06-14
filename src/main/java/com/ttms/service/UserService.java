@@ -27,4 +27,6 @@ public interface UserService {
     void deleteUser(String uuid) throws Exception;
 
     List<Employee> getUnregistered();
+
+    Employee getEmpByNP(String username, String password);
 }

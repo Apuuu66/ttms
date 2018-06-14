@@ -1,12 +1,12 @@
 package com.ttms.service;
 
 import com.ttms.dao.SeatDao;
-import com.ttms.pojo.PageBean;
-import com.ttms.pojo.Seat;
-import com.ttms.pojo.Studio;
+import com.ttms.dao.TicketDao;
+import com.ttms.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +18,8 @@ import java.util.List;
 public class SeatServiceImpl implements SeatService {
     @Autowired
     private SeatDao seatDao;
+    @Autowired
+    private TicketDao ticketDao;
 
     @Override
     public List<Seat> getList() {
@@ -76,5 +78,49 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public int getSeatsOfStudioCount(String id) {
         return seatDao.getSeatsOfStudioCount(id);
+    }
+
+    @Override
+    public String getticketstatus(String studio_id, String schedId) {
+        List<Seat> seats = seatDao.getSeatsOfStudio(studio_id);
+        String s = "";
+        for (Seat seat : seats) {
+            if (seat.getSeatStatus() == 0 || seat.getSeatStatus() == -1) {
+                s += "-1,";
+            } else if (seat.getSeatStatus() == 1) {
+                Integer state = ticketDao.selectOne(seat.getId(), schedId);
+                if (state == 0) {
+                    s += "0,";
+                } else if (state == 9 || state == 1) {
+                    s += "1,";
+                } else
+                    s = "false";
+            } else {
+                s = "false";
+            }
+        }
+        return s;
+    }
+
+    @Override
+    public State saveticketstatus(String studio_id, String schedId, String saveStatus, String pay, String ticketPrice, String change) {
+        List<Seat> seats = seatDao.getSeatsOfStudio(studio_id);
+        List<Integer> list = new ArrayList<>();
+        String[] split = saveStatus.split(",");
+        for (int i = 0; i < split.length; i++) {
+            list.add(seats.get(Integer.parseInt(split[i]) - 1).getId());
+        }
+        List<Ticket> tickets = ticketDao.selectTwo(schedId, list);
+        for (Ticket ticket : tickets) {
+            if (ticket.getTicketStatus() == 1 || ticket.getTicketStatus() == 9) {
+                return new State(false, "该位置已被购买");
+            } else {
+                ticket.setTicketStatus((short) 9);
+                ticketDao.updateStatus(ticket);
+                return new State(true, "ok");
+            }
+        }
+
+        return new State(false, "fail");
     }
 }

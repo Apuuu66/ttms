@@ -20,7 +20,6 @@
     </select>
 
 
-
     <select id="getByConditionCount" parameterType="com.ttms.pojo.User" resultType="java.lang.Integer">
         SELECT count(*) FROM user
         <include refid="user_where"/>
@@ -60,7 +59,6 @@
     </resultMap>
 
 
-
     <insert id="addUser" parameterType="java.lang.Integer">
         INSERT INTO `ttms`.`user`(`id`) VALUES (#{id})
     </insert>
@@ -74,6 +72,13 @@
 
     <select id="getUnregistered" resultType="com.ttms.pojo.Employee">
     SELECT id,emp_name FROM employee WHERE NOT EXISTS (select `user`.id FROM `user` WHERE `user`.id=employee.id)
+    </select>
+
+    <select id="getEmpByNo" parameterType="java.lang.String" resultType="com.ttms.pojo.Employee">
+       SELECT * FROM employee WHERE emp_no = #{id} LIMIT 1;
+    </select>
+    <select id="getUserById" parameterType="java.lang.Integer" resultType="com.ttms.pojo.User">
+        SELECT * from `user` WHERE `user`.id = #{id} LIMIT 1;
     </select>
 </mapper>
 

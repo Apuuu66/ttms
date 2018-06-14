@@ -2,7 +2,7 @@ package com.ttms.service;
 
 import com.ttms.pojo.PageBean;
 import com.ttms.pojo.Seat;
-import com.ttms.pojo.Studio;
+import com.ttms.pojo.State;
 
 import java.util.List;
 
@@ -29,4 +29,9 @@ public interface SeatService {
     List<Seat> getSeatsOfStudio(String id);
 
     int getSeatsOfStudioCount(String id);
+
+    String getticketstatus(String studio_id, String schedId);
+
+    State saveticketstatus(String studio_id, String schedId, String saveStatus, String pay, String ticketPrice, String change);
+
 }

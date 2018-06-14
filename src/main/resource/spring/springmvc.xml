@@ -26,9 +26,10 @@
             <value>5242880</value>
         </property>
         <!--<property name="defaultEncoding">-->
-            <!--<value>UTF-8</value>-->
+        <!--<value>UTF-8</value>-->
         <!--</property>-->
     </bean>
+
     <context:component-scan base-package="com.ttms.web,com.ttms.mobile.web"/>
 
 </beans>

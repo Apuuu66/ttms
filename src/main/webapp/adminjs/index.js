@@ -30,29 +30,39 @@ var _menus;
 
 $(function () {
     showName();
-
-    //获取菜单数据
-    $.ajax({
-        url: '/getMenus',
-        // url:'/getUserMenus',
-        type: 'post',
-        dataType: 'json',
-        success: function (rtn) {
-            _menus = rtn;
-            InitLeftMenu();
-        }
+    $("#loginOut").bind('click', function () {
+        $.ajax({
+            url: "user/logout",
+            success: function (rtn) {
+                location.href = "login.html";
+            }
+        });
     });
-    tabClose();
-    tabCloseEven();
 });
 
 function showName() {
     $.ajax({
         type: "post",
-        url: "emp/showName",
+        url: "user/showName",
         success: function (rtn) {
             if (rtn.success) {
                 $("#username").html(rtn.message);
+
+                //获取菜单数据
+                $.ajax({
+                    url: '/getMenus',
+                    // url:'/getUserMenus',
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (rtn) {
+                        _menus = rtn;
+                        InitLeftMenu();
+                    }
+                });
+                tabClose();
+                tabCloseEven();
+
+
             } else
                 location.href = "login.html"
         }

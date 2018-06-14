@@ -30,4 +30,8 @@ public interface UserDao {
     void deleteUser(String uuid);
 
     List<Employee> getUnregistered();
+
+    Employee getEmpByNo(String username);
+
+    User getUserById(Integer id);
 }

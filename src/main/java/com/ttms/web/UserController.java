@@ -8,6 +8,7 @@ import com.ttms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -97,5 +98,37 @@ public class UserController {
     @ResponseBody
     public List<Employee> getUnregistered() {
         return userService.getUnregistered();
+    }
+
+    @RequestMapping("/login")
+    @ResponseBody
+    public State login(HttpServletRequest request, @RequestParam(value = "username") String username, @RequestParam(value = "password") String password) {
+        if (username != null && username != "") {
+            if (password != null && password != "") {
+                Employee emp = userService.getEmpByNP(username, password);
+                if (emp != null) {
+                    request.getSession().setAttribute("loginUser", emp);
+                    return new State(true, "ok");
+                }
+            }
+        }
+        return new State(false, "no");
+    }
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public State logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("loginUser");
+        return new State(true, "logout");
+    }
+
+    @RequestMapping("/showName")
+    @ResponseBody
+    public State showName(HttpServletRequest request) {
+        Employee user = (Employee) request.getSession().getAttribute("loginUser");
+        if (null != user) {
+            return new State(true, user.getEmpName());
+        }
+        return new State(false, "");
     }
 }

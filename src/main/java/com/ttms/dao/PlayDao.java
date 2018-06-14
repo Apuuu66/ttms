@@ -31,4 +31,6 @@ public interface PlayDao {
     List<DataDict> getLangs();
 
     List<DataDict> getTypes();
+
+    void updateState(Integer id);
 }

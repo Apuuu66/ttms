@@ -1,6 +1,8 @@
 package com.ttms.pojo;
 
-import java.math.BigDecimal;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.util.Date;
 
 public class Schedule {
@@ -12,7 +14,27 @@ public class Schedule {
 
     private Date schedTime;
 
-    private BigDecimal schedTicketPrice;
+    private Float schedTicketPrice;
+
+    private Studio studio;
+
+    private Play play;
+
+    public Studio getStudio() {
+        return studio;
+    }
+
+    public void setStudio(Studio studio) {
+        this.studio = studio;
+    }
+
+    public Play getPlay() {
+        return play;
+    }
+
+    public void setPlay(Play play) {
+        this.play = play;
+    }
 
     public Integer getId() {
         return id;
@@ -46,11 +68,16 @@ public class Schedule {
         this.schedTime = schedTime;
     }
 
-    public BigDecimal getSchedTicketPrice() {
+    public Float getSchedTicketPrice() {
         return schedTicketPrice;
     }
 
-    public void setSchedTicketPrice(BigDecimal schedTicketPrice) {
+    public void setSchedTicketPrice(Float schedTicketPrice) {
         this.schedTicketPrice = schedTicketPrice;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

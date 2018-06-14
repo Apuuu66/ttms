@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>角色管理</title>
+    <title>上映电影</title>
     <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
     <script type="text/javascript" src="easyui/jquery.min.js"></script>
     <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="easyui/easyui-lang-zh_CN.js"></script>
-    <script type="text/javascript" src="js/mycrud.js"></script>
+    <!--<script type="text/javascript" src="js/mycrud.js"></script>-->
     <script type="text/javascript" src="js/jquery.form.js"></script>
 </head>
 <body style="margin: 2px">
@@ -66,31 +66,16 @@
            onclick='$("#myDlg").dialog("close", false);'>取消</a>
     </div>
 </div>
-
-<div id='toolbar' class="easyui-panel" style="padding-left:4px;border-bottom:0px;">
-
-    <div style="height:2px;"></div>
-
-    <form id="searchForm">
-        <a class='easyui-linkbutton' iconcls='icon-add' href='javascript:void(0)' onclick="Insert()">添加</a>
-        <a class='easyui-linkbutton' iconcls='icon-edit' href='javascript:void(0)' onclick="Edit()">编辑</a>
-        <a class='easyui-linkbutton' iconcls='icon-cancel' href='javascript:void(0)' onclick="Delete()">删除</a>
-    </form>
-</div>
 <div style="height:4px;"></div>
 </body>
 
 <script type="text/javascript">
-    var urlPrefix = "play";
-    var pageName = "剧目";
-    var w = 300;
-    var h = 400;
     var columns = [[
         {field: "", checkbox: true},  //复选框
-        {field: 'id', title: 'ID', width: 50},
+        {field: 'id', title: 'ID', width: 80},
         {field: 'playName', title: '片名', width: 100},
         {
-            field: 'type', title: '类型', width: 80, formatter: function (value, row, index) {
+            field: 'type', title: '类型', width: 100, formatter: function (value, row, index) {
                 if (value) {
                     return value.dictValue;
                 }
@@ -100,7 +85,7 @@
             }
         },
         {
-            field: 'lang', title: '语言', width: 80, formatter: function (value, row, index) {
+            field: 'lang', title: '语言', width: 70, formatter: function (value, row, index) {
                 if (value) {
                     return value.dictValue;
                 }
@@ -116,16 +101,16 @@
             }
         },
         {field: 'playIntroduction', title: '介绍', width: 400},
-        {field: 'playLength', title: '时长', width: 80},
+        {field: 'playLength', title: '时长', width: 150},
         {field: 'playTicketPrice', title: '票价', width: 100},
         {
             field: 'playStatus', title: '状态', width: 100,
             formatter: function (value, row, index) {
                 if (1 == value * 1) {
-                    return '已安排';
+                    return '上映中';
                 }
                 else if (0 == value * 1) {
-                   return '未安排';
+                    return '未安排';
                 }
                 else if (-1 == value * 1) {
                     return '已下线';
@@ -133,19 +118,33 @@
                     return '';
 
             }
+        }, {
+            field: 'link', title: '操作', width: 100, formatter: function () {
+                return '<a href="javascript:selectSched();">查询</a>'
+            }
         }
     ]];
-
-
-    $("#btnAdd").bind('click', function () {
-        $("#editForm").ajaxSubmit(function (rtn) {
-            $.messager.alert("提示", rtn.message, "info", function () {
-                // 关闭窗口 刷新表单
-                $("#myDlg").dialog("close");
-                $("#myGird").datagrid("reload");
-            });
+    $(function () {
+        $('#myGird').datagrid({
+            title: "热映影片",
+            url: "play/onSalepage",
+            columns: columns,
+            loadMsg: '嗖 ----正在火速加载中 -------------', //加载提示
+            pagination: true, //显示分页工具栏
+            rownumbers: true, //显示行号列
+            singleSelect: false,//是允许选择一行
+            pageSize: 12,
+            pageList: [12, 20, 30],
+            toolbar: "#toolbar",//工具栏
+            nowrap: false
         });
     });
+
+
+    function selectSched() {
+        var row = $("#myGird").datagrid('getSelected');
+        window.location.href = 'saleSchedule.html?playId=' + row.id;
+    }
 </script>
 
 </html>

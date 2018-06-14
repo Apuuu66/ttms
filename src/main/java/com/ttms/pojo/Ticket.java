@@ -1,6 +1,5 @@
 package com.ttms.pojo;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class Ticket {
@@ -10,7 +9,7 @@ public class Ticket {
 
     private Integer schedId;
 
-    private BigDecimal ticketPrice;
+    private Float ticketPrice;
 
     private Short ticketStatus;
 
@@ -40,11 +39,11 @@ public class Ticket {
         this.schedId = schedId;
     }
 
-    public BigDecimal getTicketPrice() {
+    public Float getTicketPrice() {
         return ticketPrice;
     }
 
-    public void setTicketPrice(BigDecimal ticketPrice) {
+    public void setTicketPrice(Float ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
 

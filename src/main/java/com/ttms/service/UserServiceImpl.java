@@ -66,4 +66,16 @@ public class UserServiceImpl implements UserService {
     public List<Employee> getUnregistered() {
         return userDao.getUnregistered();
     }
+
+    @Override
+    public Employee getEmpByNP(String username, String password) {
+        Employee emp = userDao.getEmpByNo(username);
+        if (emp != null) {
+            User user = userDao.getUserById(emp.getId());
+            if (user != null && user.getEmpPass().equals(password)) {
+                return emp;
+            }
+        }
+        return null;
+    }
 }

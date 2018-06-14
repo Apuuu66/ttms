@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -60,6 +57,24 @@ public class PlayController {
         return map;
     }
 
+    @RequestMapping("/onSalepage")
+    @ResponseBody
+    public Map onSalepage(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int page,
+                          @RequestParam(value = "rows", defaultValue = "12") int rows) {
+        HashMap<String, Object> map = new HashMap<>();
+        PageBean<Play> pageBean = playService.getPagebean(page, 100);
+        List<Play> plays = pageBean.getList();
+        Iterator<Play> iterator = plays.iterator();
+        while (iterator.hasNext()) {
+            Play next = iterator.next();
+            if (next.getPlayStatus() == 0 || next.getPlayStatus() == -1)
+                iterator.remove();
+        }
+        map.put("rows", plays);
+        map.put("total", plays.size());
+        return map;
+    }
+
     @RequestMapping("/add")
     @ResponseBody
     public State addPlay(HttpServletRequest request, Play play) throws IOException {
@@ -86,9 +101,9 @@ public class PlayController {
 
     @RequestMapping("/update")
     @ResponseBody
-    public State updatePlay(Play play) {
+    public State updatePlay() {
         try {
-            playService.updatePlay(play);
+//            playService.updatePlay(play);
             return new State(true, "更新成功");
         } catch (Exception e) {
             e.printStackTrace();

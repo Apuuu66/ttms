@@ -1,9 +1,6 @@
 package com.ttms.web;
 
-import com.ttms.pojo.PageBean;
-import com.ttms.pojo.State;
-import com.ttms.pojo.Seat;
-import com.ttms.pojo.Studio;
+import com.ttms.pojo.*;
 import com.ttms.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -104,4 +101,21 @@ public class SeatController {
         }
         return new State(false, "删除失败");
     }
+
+
+    @RequestMapping("/getticketstatus")
+    @ResponseBody
+    public String getticketstatus(String studio_id, String schedId) {
+        return seatService.getticketstatus(studio_id, schedId);
+    }
+
+
+    @RequestMapping("/saveticketstatus")
+    @ResponseBody
+    public State saveticketstatus(HttpServletRequest request, String studio_id, String schedId, String saveStatus, String pay, String ticketPrice, String change) {
+        Employee user = (Employee) request.getSession().getAttribute("loginUser");
+        return seatService.saveticketstatus(studio_id, schedId, saveStatus, pay, ticketPrice, change);
+    }
+
+
 }

@@ -74,4 +74,9 @@
     <select id="getTypes" resultType="com.ttms.pojo.DataDict">
           SELECT  * FROM data_dict WHERE dict_parent_id=2;
     </select>
+
+    <!--修改play状态-->
+    <update id="updateState" parameterType="java.lang.Integer">
+       UPDATE `ttms`.`play` SET `play_status` = 1 WHERE `id` = #{id}
+    </update>
 </mapper>

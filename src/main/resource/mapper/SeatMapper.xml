@@ -58,4 +58,6 @@
     <select id="getStudioById" parameterType="java.lang.String" resultType="com.ttms.pojo.Studio">
         SELECT  * FROM studio WHERE studio.id =#{id}
     </select>
+
+
 </mapper>

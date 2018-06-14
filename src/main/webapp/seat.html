@@ -59,8 +59,7 @@
     </form>
 
     <div id="btnadd">
-        <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-save'"
-           onclick='addSeat()'>确定</a>
+        <a href="javascript:addSeat();"   class="easyui-linkbutton" data-options="iconCls:'icon-save'">确定</a>
         <a href='javascript:void(0);' class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"
            onclick='$("#addDlg").dialog("close", false);'>取消</a>
     </div>
@@ -100,7 +99,7 @@
                     return '可用';
                 }
                 else if (0 == value) {
-                    return '已卖';
+                    return '空位';
                 }
                 else
                     return '损坏';
@@ -118,7 +117,7 @@
         $('#addDlg').dialog('open');
     }
 
-    function addSeat() {git
+    function addSeat() {
         $.ajax({
             type: "post",
             url: 'seat/add?id=' + $("#studioId").val(),
