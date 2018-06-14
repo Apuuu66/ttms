@@ -12,7 +12,7 @@ $(function () {
     var playId = getUrlParam('playId');
     // alert(playId);
     $('#myGird').datagrid({
-        title: pageName + "管理",
+        title: pageName + "管理  "+'<a href="sale.html">返回</a>',
         url: urlPrefix + "/salePage?playId="+playId,
         columns: columns,
         loadMsg: '嗖 ----正在火速加载中 -------------', //加载提示
