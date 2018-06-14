@@ -7,7 +7,11 @@ $(function () {
         if (uPattern.test($("#u").val())) {
             $.post('user/login', $("#login_form").serialize(), function (rtn) {
                 if (rtn.success == true) {
-                    location.href = "admin.html";
+                    if (rtn.message * 1 >= 3) {
+                        location.href = "../sale.html";
+                    } else {
+                        location.href = "admin.html";
+                    }
                 } else {
                     alert("登录名密码错误");
                     window.location.reload();

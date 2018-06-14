@@ -105,10 +105,12 @@ public class UserController {
     public State login(HttpServletRequest request, @RequestParam(value = "username") String username, @RequestParam(value = "password") String password) {
         if (username != null && username != "") {
             if (password != null && password != "") {
-                Employee emp = userService.getEmpByNP(username, password);
+                Map<String, Object> map = userService.getEmpByNP(username, password);
+                Employee emp = (Employee) map.get("emp");
                 if (emp != null) {
                     request.getSession().setAttribute("loginUser", emp);
-                    return new State(true, "ok");
+                    User user = (User) map.get("user");
+                    return new State(true, user.getRole().toString());
                 }
             }
         }

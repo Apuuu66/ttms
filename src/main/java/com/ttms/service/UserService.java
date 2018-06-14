@@ -5,6 +5,7 @@ import com.ttms.pojo.PageBean;
 import com.ttms.pojo.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,5 +29,5 @@ public interface UserService {
 
     List<Employee> getUnregistered();
 
-    Employee getEmpByNP(String username, String password);
+    Map<String, Object> getEmpByNP(String username, String password);
 }

@@ -8,7 +8,9 @@ import com.ttms.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -68,12 +70,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Employee getEmpByNP(String username, String password) {
+    public Map<String, Object> getEmpByNP(String username, String password) {
         Employee emp = userDao.getEmpByNo(username);
         if (emp != null) {
             User user = userDao.getUserById(emp.getId());
             if (user != null && user.getEmpPass().equals(password)) {
-                return emp;
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("emp", emp);
+                map.put("user", user);
+                return map;
             }
         }
         return null;

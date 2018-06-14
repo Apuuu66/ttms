@@ -34,7 +34,7 @@ $(function () {
         $.ajax({
             url: "user/logout",
             success: function (rtn) {
-                location.href = "login.html";
+                location.href = "../index.html";
             }
         });
     });
@@ -64,7 +64,7 @@ function showName() {
 
 
             } else
-                location.href = "login.html"
+                location.href = "../index.html"
         }
     });
 }

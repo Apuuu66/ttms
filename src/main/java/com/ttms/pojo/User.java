@@ -9,7 +9,7 @@ public class User {
     @JsonIgnore
     private String empPass;
 
-    private Role role;
+    private Integer role;
 
     private String headPath;
 
@@ -39,11 +39,11 @@ public class User {
         this.empPass = empPass == null ? null : empPass.trim();
     }
 
-    public Role getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
